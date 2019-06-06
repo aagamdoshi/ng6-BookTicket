@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BookMovieComponent } from './book-movie/book-movie.component';
 import { ShowBookingsComponent } from './show-bookings/show-bookings.component';
 import { HomeComponent } from './home/home.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { HomeComponent } from './home/home.component';
   ],
   imports: [
     AppRoutingModule,
+    ReactiveFormsModule ,
     BrowserModule
   ],
   providers: [],

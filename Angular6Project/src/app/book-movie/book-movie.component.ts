@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-book-movie',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BookMovieComponent implements OnInit {
 
-  constructor() { }
+  name = new FormControl('');
+
+  constructor(private fb: FormBuilder) { }
+
+  movieDetailsForm: FormGroup;
 
   ngOnInit() {
+        /* Initiate the form structure */
+        this.movieDetailsForm = this.fb.group({
+          movieName: [''],
+          timings: [''],
+          persons: [''],
+        });
   }
 
 }

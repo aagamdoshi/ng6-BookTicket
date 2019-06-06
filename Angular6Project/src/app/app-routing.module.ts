@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { BookMovieComponent } from './book-movie/book-movie.component';
 import { ShowBookingsComponent } from './show-bookings/show-bookings.component';
 import { HomeComponent } from './home/home.component';
+import { FormControl } from '@angular/forms';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
