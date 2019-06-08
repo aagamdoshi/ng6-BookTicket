@@ -1,35 +1,38 @@
-<p>
-  book-movie works!
-</p>
-
 <form class="form-horizontal adjustFormControl" [formGroup]="movieDetailsForm">
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <h3 class="panel-title">Show Movie Details</h3>
+  <div class="">
+    <div class="">
+      <h1 class="text-center fontHeader">Show Movie Details</h1>
     </div>
 
 
     <div class="panel-body">
       <div class="form-group">
-        <label class="col-sm-2 control-label">Movie Name:</label>
+        <label for="inputlg" class="col-sm-2 control-label fontStyle">Movie Name</label>
         <div class="col-sm-8">
-          <input type="text" class="inputField form-control" formControlName="name">
+            <select class="inputField form-control" id="movieName" (ngModelChange)="onMovieChange()" 
+            formControlName="movieName">
+                <option *ngFor="let m of movieNames" [value]="m.name"> {{ m.name }} </option>
+            </select>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="col-sm-2 control-label">Show Timings</label>
+        <label class="col-sm-2 control-label fontStyle">Show Timings</label>
         <div class="col-sm-8">
-          <input type="text" class="inputField form-control" formControlName="timings">
+            <select class="inputField form-control" id="timings" formControlName="timings">
+                <option *ngFor="let time of timings" [value]="time"> {{ time }} </option>
+            </select>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="col-sm-2 control-label">Persons</label>
+        <label class="col-sm-2 control-label fontStyle">Persons</label>
         <div class="col-sm-8">
           <input type="text" class="inputField form-control" formControlName="persons">
         </div>
       </div>
     </div>
+    <button class="btn btn-dark btn-block fontHeader" type="button"
+          (click)="onBookTickets()">Book Now</button>
   </div>
 </form>
