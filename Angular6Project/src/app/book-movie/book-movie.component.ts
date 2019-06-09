@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { FormControl, Validators, FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MovieDataService } from '../movie-data.service';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-book-movie',
@@ -7,12 +12,21 @@ import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms'
   styleUrls: ['./book-movie.component.scss']
 })
 export class BookMovieComponent implements OnInit {
-  make: any;
-  year: any;
-  model: any;
-  timings: string[];
-  persons: string[];
-  constructor(private fb: FormBuilder) { }
+  public timings: string[];
+  public persons: string[];
+  public formErrors = {
+    'movieName': '',
+    'timings': '',
+    'persons': ''
+  };
+  public errorCheck: boolean;
+
+
+  constructor(private fb: FormBuilder,
+    private router: Router,
+    private data: MovieDataService) {
+
+  }
 
   movieDetailsForm: FormGroup;
   movieNames: any[] = [{ id: 1, name: 'Shawshank Redemption' },
@@ -22,11 +36,12 @@ export class BookMovieComponent implements OnInit {
   { id: 5, name: 'Aquaman' }];
   listMovieDetails: any;
 
+
   ngOnInit() {
     this.movieDetailsForm = this.fb.group({
-      movieName: [''],
-      timings: [''],
-      persons: [''],
+      movieName: ['', Validators.required],
+      timings: ['', Validators.required],
+      persons: ['', [Validators.required, Validators.maxLength(2)]],
     });
   }
 
@@ -59,6 +74,96 @@ export class BookMovieComponent implements OnInit {
   }
 
   onBookTickets(): void {
-    console.log(this.movieDetailsForm.value);
+    if (this.movieDetailsForm.get('movieName').value == '' || this.movieDetailsForm.get('timings').value == '' || this.movieDetailsForm.get('persons').value == '')
+      alert("Please fill in all mandatory details");
+    else {
+      this.errorCheck = this.logValidationErrors(this.movieDetailsForm);
+      this.data.setData(this.movieDetailsForm);
+      if (!this.errorCheck) {
+        alert("Bookings Confirmed Successfully !!")
+        this.router.navigate(['/bookings']).then(nav => {
+        }, err => {
+          console.log(err);
+        })
+      }
+    }
   }
+
+  // This object contains all the validation messages for this form
+  validationMessages = {
+    'movieName': {
+      'required': 'You must select a movie to continue'
+    },
+    'timings': {
+      'required': 'Uh! oh.. Time needs to be selected',
+    },
+    'persons': {
+      'required': 'For how many people are you booking ???..',
+      'maxlength': 'Can select upto 10 persons only !!!'
+    }
+  };
+
+  logValidationErrors(group: FormGroup = this.movieDetailsForm): boolean {
+    var errorOccured = false;
+    Object.keys(group.controls).forEach((key: string) => {
+      const abstractControl = group.get(key);
+      this.formErrors[key] = '';
+      if (abstractControl && !abstractControl.valid
+        && (abstractControl.touched || abstractControl.dirty)) {
+        errorOccured = true;
+        const messages = this.validationMessages[key];
+        for (const errorKey in abstractControl.errors) {
+          if (errorKey) {
+            this.formErrors[key] += messages[errorKey] + ' ';
+          }
+        }
+      }
+
+    });
+    return errorOccured;
+  }
+
+  restrictSpecialChars(e) {
+    var pattern = /^\d+$/;
+    let check = pattern.test(e.key);
+    if (check)
+      return true;
+    else
+      return false;
+
+  }
+
+  onBookRepeatedTickets() {
+    // this.movieDetailsForm = this.fb.group({
+    //   movieName: ['', Validators.required],
+    //   timings: ['', Validators.required],
+    //   persons: ['', [Validators.required, Validators.maxLength(2)]],
+    // });
+
+    if (this.movieDetailsForm.get('movieName').value == '' || this.movieDetailsForm.get('timings').value == '' || this.movieDetailsForm.get('persons').value == '')
+      alert("Please fill in all mandatory details");
+    else {
+      this.errorCheck = this.logValidationErrors(this.movieDetailsForm);
+      this.data.setArrayData(this.movieDetailsForm);
+      this.movieDetailsForm = this.fb.group({
+        movieName: ['', Validators.required],
+        timings: ['', Validators.required],
+        persons: ['', [Validators.required, Validators.maxLength(2)]]
+      });
+      if (!this.errorCheck) {
+        alert("Current Booking Confirmed Successfully, please add other booking Details !!");
+      }
+    }
+  }
+
+  createItem(): FormGroup {
+    return this.fb.group({
+      movieName: '',
+      timings: '',
+      persons: ''
+    });
+  }
+
+
+
 }

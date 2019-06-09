@@ -1,5 +1,37 @@
-<p>
-  show-bookings works!
+<div class="container adjustFormControl">
+  <h2>Single Booked Tickets Summary</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Movie Name</th>
+        <th>Show Time</th>
+        <th>No. of Tickets</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="fontHeader">
+        <td>{{movieDetails?.value?.movieName}}</td>
+        <td>{{movieDetails?.value?.timings}}</td>
+        <td>{{movieDetails?.value?.persons}}</td>
+      </tr>
+    </tbody>
+  </table>
 
-  <img src="/assets/images/giphy.gif" />
-</p>
+  <h2>Group Booked Tickets Summary</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Movie Name</th>
+        <th>Show Time</th>
+        <th>No. of Tickets</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="fontHeader" *ngFor="let movie of arrayData.value">
+        <td>{{movie?.movieName}}</td>
+        <td>{{movie?.timings}}</td>
+        <td>{{movie?.persons}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

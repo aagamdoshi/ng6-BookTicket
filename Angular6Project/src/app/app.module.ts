@@ -6,6 +6,7 @@ import { BookMovieComponent } from './book-movie/book-movie.component';
 import { ShowBookingsComponent } from './show-bookings/show-bookings.component';
 import { HomeComponent } from './home/home.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
   imports: [
     AppRoutingModule,
     ReactiveFormsModule ,
-    BrowserModule
+    BrowserModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
