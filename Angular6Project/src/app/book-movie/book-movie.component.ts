@@ -45,7 +45,7 @@ export class BookMovieComponent implements OnInit {
     });
   }
 
-  onMovieChange(data) {
+  onMovieChange() {
     switch (this.movieDetailsForm.value.movieName) {
       case 'Shawshank Redemption': {
         this.timings = ['10:00', '11:00', '13:00', '17:00', '20:00'];
